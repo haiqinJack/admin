@@ -14,9 +14,9 @@ exports.main = async (event, context) => {
 		context
 	});
 	//UNI_WYQ:这里的uniID换成新的，保证多人访问不会冲突
-	uniID = uniID.createInstance({
-		context
-	})
+	// uniID = uniID.createInstance({
+	// 	context
+	// })
 	console.log('event : ' + JSON.stringify(event))
 	/*
 	1.event为客户端 uniCloud.callFunction填写的data的值，这里介绍一下其中的属性
@@ -50,7 +50,7 @@ exports.main = async (event, context) => {
 	*/
 	let noCheckAction = ['register', 'checkToken', 'login', 'logout', 'sendSmsCode', 'getNeedCaptcha',
 		'createCaptcha', 'verifyCaptcha', 'refreshCaptcha', 'inviteLogin', 'loginByWeixin',
-		'loginByUniverify', 'loginByApple', 'loginBySms', 'resetPwdBySmsCode', 'registerAdmin'
+		'loginByUniverify', 'loginByApple', 'loginBySms', 'resetPwdBySmsCode', 'registerAdmin', 'loginByAlipay'
 	]
 	if (!noCheckAction.includes(action)) {
 		if (!uniIdToken) {
@@ -202,7 +202,7 @@ exports.main = async (event, context) => {
 			console.log(res);
 			break;
 		case 'bindMobileByMpWeixin':
-			console.log(params);
+			console.log(params, 'bindMobileByMpWeixin');
 			let getSessionKeyRes = await uniID.getUserInfo({
 				uid: params.uid,
 				field: ['sessionKey']
@@ -211,7 +211,7 @@ exports.main = async (event, context) => {
 				return getSessionKeyRes
 			}
 			let sessionKey = getSessionKeyRes.userInfo.sessionKey
-			console.log(getSessionKeyRes);
+			console.log(getSessionKeyRes, 'getSessionKeyRes');
 			res = await uniID.wxBizDataCrypt({
 				...params,
 				sessionKey
@@ -296,6 +296,7 @@ exports.main = async (event, context) => {
 			let passed = false;
 			let needCaptcha = await isNeedCaptcha();
 			console.log('needCaptcha', needCaptcha);
+			console.log(params, '...params')
 			if (needCaptcha) {
 				res = await uniCaptcha.verify({
 					...params,

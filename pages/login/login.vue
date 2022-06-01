@@ -188,6 +188,7 @@
 						this.needCaptcha = true
 					}
 					const that = this
+					console.log(err, 'err---------')
 					uni.showModal({
 						content: err.message || '请求服务失败',
 						showCancel: false,
