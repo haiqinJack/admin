@@ -76,7 +76,8 @@
         },
         "devServer" : {
             "https" : false
-        }
+        },
+        "title" : "admin"
     },
     "vueVersion" : "2",
     "networkTimeout" : {
