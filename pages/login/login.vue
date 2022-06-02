@@ -32,6 +32,9 @@
 						@click="submitForm">{{$t('login.button.login')}}</button>
 				</view>
 			</uni-forms>
+			<view class="uni-tips">
+				<text class="uni-tips-text" @click="initAdmin">{{$t('login.text.prompt')}}...</text>
+			</view>
 		</view>
 	</view>
 </template>
@@ -236,6 +239,12 @@
 			},
 			changePassword: function() {
 				this.showPassword = !this.showPassword;
+			},
+			
+			initAdmin() {
+				uni.redirectTo({
+					url: '/pages/demo/init/init'
+				})
 			},
 			// #ifdef H5
 			focus: function() {

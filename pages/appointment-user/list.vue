@@ -22,10 +22,10 @@
         v-slot:default="{data,pagination,loading,error,options}" :options="options" loadtime="manual" @load="onqueryload">
         <uni-table ref="table" :loading="loading" :emptyText="error.message || '没有更多数据'" border stripe type="selection" @selection-change="selectionChange">
           <uni-tr>
-            <uni-th align="center">关联的预约项目</uni-th>
+            <uni-th align="center">预约项目</uni-th>
             <uni-th align="center">门店</uni-th>
 			<uni-th align="center" sortable @sort-change="sortChange($event, 'pet')">宠物信息</uni-th>
-            <uni-th align="center">关联的增值服务</uni-th>
+            <uni-th align="center">增值服务</uni-th>
             <uni-th align="center" filter-type="search" @filter-change="filterChange($event, 'mobile')" sortable @sort-change="sortChange($event, 'mobile')">联系方式</uni-th>
             <uni-th align="center" filter-type="range" @filter-change="filterChange($event, 'order_price')" sortable @sort-change="sortChange($event, 'order_price')">订单金额</uni-th>
             <uni-th align="center" filter-type="range" @filter-change="filterChange($event, 'pay_pirce')" sortable @sort-change="sortChange($event, 'pay_pirce')">已支付金额</uni-th>
@@ -33,10 +33,10 @@
             <uni-th align="center" filter-type="select" :filter-data="options.filterData.pay_type_localdata" @filter-change="filterChange($event, 'pay_type')">下单渠道</uni-th>
             <uni-th align="center" filter-type="select" :filter-data="options.filterData.status_localdata" @filter-change="filterChange($event, 'status')">服务状态</uni-th>
             <uni-th align="center" filter-type="range" sortable @sort-change="sortChange($event, 'year')">预约时间</uni-th>
-            <uni-th align="center" filter-type="search" @filter-change="filterChange($event, 'outTradeNo')" sortable @sort-change="sortChange($event, 'outTradeNo')">订单号</uni-th>
             
-            <uni-th align="center" filter-type="timestamp" @filter-change="filterChange($event, '_createTime')" sortable @sort-change="sortChange($event, '_createTime')">创建时间</uni-th>
             <uni-th align="center">操作</uni-th>
+            <uni-th align="center" filter-type="search" @filter-change="filterChange($event, 'outTradeNo')" sortable @sort-change="sortChange($event, 'outTradeNo')">订单号</uni-th>
+            <uni-th align="center" filter-type="timestamp" @filter-change="filterChange($event, '_createTime')" sortable @sort-change="sortChange($event, '_createTime')">创建时间</uni-th>
           </uni-tr>
           <uni-tr v-for="(item,index) in data" :key="index">
             <uni-td align="center">{{item.appointment_project_id && item.appointment_project_id[0] && item.appointment_project_id[0].title}}</uni-td>
@@ -44,6 +44,7 @@
             <uni-td align="center">
             	{{item.pet.pet_type}}-{{ item.pet.nickname}}
             </uni-td>
+			
 			<uni-td align="center">
 				<uni-tag v-for="(tag, index) in item.project_single_id" :key="index" :text="tag.title" type="error"></uni-tag>
 			</uni-td>
@@ -54,17 +55,19 @@
             <uni-td align="center">{{options.pay_type_valuetotext[item.pay_type]}}</uni-td>
             <uni-td align="center">{{options.status_valuetotext[item.status]}}</uni-td>
             <uni-td align="center">{{item.year}}-{{item.month +1}}-{{item.date}} {{item.hour}}:00</uni-td>
-            <uni-td align="center">{{item.outTradeNo}}</uni-td>
             
-            <uni-td align="center">
-              <uni-dateformat :threshold="[0, 0]" :date="item._createTime"></uni-dateformat>
-            </uni-td>
+            
+            
             <uni-td align="center">
               <view class="uni-group">
                 <button @click="navigateTo('./edit?id='+item._id, false)" class="uni-button" size="mini" type="primary">修改</button>
                 <button @click="confirmDelete(item._id)" class="uni-button" size="mini" type="warn">删除</button>
               </view>
             </uni-td>
+			<uni-td align="center">{{item.outTradeNo}}</uni-td>
+			<uni-td align="center">
+			  <uni-dateformat :threshold="[0, 0]" :date="item._createTime"></uni-dateformat>
+			</uni-td>
           </uni-tr>
         </uni-table>
         <view class="uni-pagination-box">
